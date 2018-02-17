@@ -7,3 +7,18 @@ services:
                         - ./login-service:/usr/src/app
                 ports:
                         - 5000:80
+                depends_on:
+                        - mongodb
+
+        mongodb:
+                image: mongo:3.6
+                environment:
+                        - MONGO_DATA_DIR=${MONGODB_DATA_PATH}
+                        - MONGO_LOG_DIR=${MONGODB_LOG_PATH}
+                        - MONGODB_USER=${MONGODB_USERNAME}
+                        - MONGODB_PASS=${MONGODB_PASSWORD}
+                volumes:
+                        - ${DATA_VOLUME_DIR}:${MONGODB_DATA_PATH}
+                ports:
+                        - 27018:27017
+                command: mongod --smallfiles
